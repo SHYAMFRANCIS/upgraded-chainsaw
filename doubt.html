@@ -1,0 +1,25 @@
+<h1 id="greeting">Hi, {{ username }}</h1>
+<p>You can ask your doubts here:</p>
+<form id="doubtForm">
+    <textarea id="doubt" name="doubt" placeholder="Enter your doubt..." required></textarea>
+    <button type="submit">Submit Doubt</button>
+</form>
+<div id="response"></div>
+
+<script>
+    document.getElementById('doubtForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const doubt = document.getElementById('doubt').value;
+
+        const res = await fetch('/submit_doubt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ doubt })
+        });
+
+        const data = await res.json();
+        document.getElementById('response').textContent = 'Bot: ' + data.response;
+    });
+</script>
